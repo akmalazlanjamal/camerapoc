@@ -168,6 +168,9 @@ public class MainActivity extends AppCompatActivity {
 
     void releaseSelectedCamera() {
         if (selectedCamera != null) {
+            CameraPreview cameraPreview = (CameraPreview) findViewById(R.id.cameraPreview);
+            cameraPreview.releaseCamera();
+
             selectedCamera.release();
             selectedCamera = null;
         }
@@ -195,6 +198,9 @@ public class MainActivity extends AppCompatActivity {
             try {
                 selectedCamera = Camera.open(selectedCameraId);
                 message = String.format("Opened Camera ID: %d", selectedCameraId);
+
+                CameraPreview cameraPreview = (CameraPreview) findViewById(R.id.cameraPreview);
+                cameraPreview.connectCamera(selectedCamera, selectedCameraId);
             } catch (Exception ex) {
                 message = "Unable to open Camera: " + ex.getMessage();
                 Log.e(LOG_TAG, message);

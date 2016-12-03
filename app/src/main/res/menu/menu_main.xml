@@ -3,8 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.akmal5labs.camerapoc.MainActivity">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/menuOpenBackCamera"
+        android:title="Open Back-Facing Camera"
+        android:onClick="onMenuOpenBackCamera" />
+    <item android:id="@+id/menuOpenFrontCamera"
+        android:title="Open Front-Facing Camera"
+        android:onClick="onMenuOpenFrontCamera"
+        />
+    <item android:id="@+id/menuCloseCamera"
+        android:title="Close Camera"
+        android:onClick="onMenuCloseCamera"
+        />
+    <item android:id="@+id/menuExit"
+        app:showAsAction="always"
+        android:title="Exit"
+        android:onClick="onExit"
+        android:icon="@android:drawable/ic_lock_power_off"/>
 </menu>

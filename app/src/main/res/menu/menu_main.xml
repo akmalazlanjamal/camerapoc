@@ -19,4 +19,9 @@
         android:title="Exit"
         android:onClick="onExit"
         android:icon="@android:drawable/ic_lock_power_off"/>
+    <item android:id="@+id/menuTake"
+        app:showAsAction="ifRoom"
+        android:title="Snap"
+        android:onClick="onTakePicture"
+        android:icon="@android:drawable/ic_lock_power_off"/>
 </menu>

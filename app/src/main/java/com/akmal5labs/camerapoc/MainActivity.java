@@ -1,8 +1,11 @@
 package com.akmal5labs.camerapoc;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -13,6 +16,11 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -207,6 +215,42 @@ public class MainActivity extends AppCompatActivity {
             }
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+    public void onTakePicture(MenuItem item) {
+        selectedCamera.takePicture(null, null, new Camera.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] bytes, Camera camera) {
+                onPictureJpeg(bytes, camera);
+            }
+        });
+    }
+
+    void onPictureJpeg(byte[] bytes, Camera camera) {
+        String userMessage = null;
+        int i = bytes.length;
+        Log.d(LOG_TAG, String.format("bytes = %d", i));
+
+        File f = CameraHelper.generateTimeStampPhotoFile();
+
+        try {
+            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(f));
+            outputStream.write(bytes);
+            outputStream.flush();
+            outputStream.close();
+            userMessage = "Picture saved as " +  f.getName();
+
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Error accessing photo output file:" + e.getMessage());
+            userMessage = "Error saving photo";
+        }
+
+        if (userMessage != null) {
+            Toast.makeText(this, userMessage, Toast.LENGTH_SHORT).show();
+        }
+
+        selectedCamera.startPreview();
 
     }
 }
